@@ -20,6 +20,16 @@ main{
 }
 
 #mainNoticia{
-  padding-top: 40px;
+  padding:30px;
   border: 3px solid rgb(111, 142, 146);
+    
+}
+#mainNoticia h3{    
+    font-family: 'Zen Tokyo Zoo', cursive;  
+}
+
+#mainNoticia p{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 22px;
+  color: rgb(26, 5, 1);
 }

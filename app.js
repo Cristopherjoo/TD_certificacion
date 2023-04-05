@@ -9,14 +9,14 @@ const { verificarToken } = require("./middlewares/jwt.js")
 const { upload } = require('./middlewares/upload.js')
 const cors = require("cors")
 const fs = require('fs')
-// const { throws } = require('assert')
+const { throws } = require('assert')
 
 const app = express()
 
 const SECRETO = process.env.SECRETO || "12345"
 
 
-//MIDDLEWARE
+//Middlewares---------------------------------
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use('/public', express.static('public'))
@@ -30,9 +30,7 @@ app.use(fileUpload({
 }))
 
 
-
-//configuración handlebars
-
+//configuración handlebars-----------------------------
 const hbs = create({
 	partialsDir: [
 		"views/partials/",
@@ -44,10 +42,10 @@ app.set('view engine', '.hbs')
 app.set('views', './views')
 app.set("views", path.resolve(__dirname, "./views"))
 
-//fin configuración handlebars
+//fin configuración handlebars--------------------------
 
 
-//RUTAS DE VISTA
+//Rutas vistas------------------------------------------
 app.get("/", async (req, res) => {
     try {
         let publicaciones = await getPublicaciones();
@@ -163,10 +161,7 @@ app.get("/publicacion/:id", async (req, res) => {
         }
     })
 
-
-
-
-//ENDPOINTS
+//Enpoints-----------------------------------------
 
 app.post("/api/v1/login", (req, res) => {
     try {
@@ -237,7 +232,6 @@ app.post("/api/v1/publicar", verificarToken, upload, (req, res) => {
         res.status(500).json({code: 500, message: "no se pudo realizar la publicación"})
     }
 })
-
 
 app.post("/api/v1/comentarios", verificarToken, async (req, res) => {
 

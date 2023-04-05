@@ -20,14 +20,10 @@ const upload = (req, res, next) => {
             next();
           });
 
-
     }catch(error){
         res.status(500).json({code: 500, message: "No se pudo cargar la foto."})
     }
-
 }
-
-
 module.exports = {
     upload
 }
