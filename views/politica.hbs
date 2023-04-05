@@ -1,0 +1,26 @@
+<h2 class="text-center mt-3">Política</h2>
+
+
+<section class="py-5">
+
+    {{#if error}}
+        <h2 class="text-center mt-2">{{error}}</h2>
+    {{else}}
+    <div class="row">
+         {{#each publicaciones}}
+                <div class="col-12 col-md-6 col-lg-4 mt-2">
+                    {{>card 
+                    idPublicacion=this.id
+                    imagen=this.imagen
+                    titulo=this.titulo
+                    contenido=this.contenido
+                    fecha = this.fecha
+                    autor = this.autor
+                    }}
+                </div>
+        {{/each}}
+    </div>
+       
+    {{/if}}
+
+</section>

@@ -1,0 +1,85 @@
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark"
+      data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Noticias WEB</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/views/farandula.hbs">farándula</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/views/politica.hbs">política</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/publicar" id="linkPublicar">Publicar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login" id="linkLogin">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/registro" id="linkRegistro">Registro</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="" id="linkLogout">cerrar sesión</a>
+        </li>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .navbar{
+    padding: 30px;    
+    font-family: 'Vast Shadow', cursive;
+   }
+ 
+
+   .navbar:hover,
+   header:hover {
+     background-color: gray;
+     color: white;      
+   }
+
+  .navbar li a:hover {
+     transform: scale(1.1);
+     color: chocolate;
+   }
+   .navbar li a.active {
+     color: chocolate;
+   }
+</style>
+
+<script>
+    let token = localStorage.getItem('jwt')
+    let linkPublicar = document.getElementById("linkPublicar")
+    let linkLogout = document.getElementById("linkLogout")
+
+    
+    if(token){
+        linkLogin.style.display = "none"
+        linkRegistro.style.display = "none"
+    }else{
+        linkPublicar.style.display = "none"
+        linkLogout.style.display = "none"
+    }
+
+    linkPublicar.addEventListener("click", (event) => {
+        event.preventDefault()
+        if(token){
+            location.href = "/publicar?token="+token
+        }else{
+            alert("Debe loguearse para obtener permisos a esa ruta.")
+        }
+    })
+
+    linkLogout.addEventListener("click", (event) => {
+        localStorage.clear()
+        location.href = "/"
+    })
+</script>

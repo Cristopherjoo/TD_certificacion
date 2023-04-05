@@ -1,0 +1,97 @@
+<h2 class="text-center m-5">Registro</h2>
+
+<form action="" id="formRegistro" class="formRegistro">
+    <div class="form_register">
+        <label for="registerNombre" class="form-label text-light fs-5"></label>
+        <input type="text" class="form-control" id="registroNombre" placeholder="Nombre" required>
+    </div>
+    <div class="form_register">
+        <label for="registroEmail" class="form-label text-light fs-5"></label>
+        <input type="email" class="form-control" id="registroEmail" placeholder="Email" required>
+    </div>
+    <div class="form_register">
+        <label for="registroPassword1" class="form-label text-light fs-5"></label>
+        <input type="password" class="form-control" id="registroPassword1" placeholder="Password" required>
+    </div>
+    <div class="form_register">
+        <label for="registroPassword2" class="form-label text-light fs-5"></label>
+        <input type="password" class="form-control" id="registroPassword2" placeholder="Repetir password" required>
+    </div>
+    <button id="btn_register" type="submit" class="btn btn-primary fs-5">Registrar</button>
+    </div> 
+</form>
+
+
+<style>
+    form {
+        margin: auto;
+        width: 420px;
+        height: 470px;
+        background-color: rgb(21, 38, 36);
+    }
+
+    .formRegistro {
+        border-radius: 20px;
+    }
+
+    .form_register {
+        margin: 6px;
+        padding: 10px;
+    }
+
+    input {
+        margin-top: 6px;
+    }
+
+    #btn_register {
+        margin-top: 16px;
+        margin-left: 20px;        
+    }
+
+    .form-control:hover {
+        box-shadow: 0 0 20px 5px rgb(51, 100, 93);
+    }
+</style>
+
+<script>
+
+    let formRegistro = document.getElementById("formRegistro")
+
+    formRegistro.addEventListener("submit", (event) => {
+        event.preventDefault()
+
+        var myHeaders = new Headers()
+        myHeaders.append("Content-Type", "application/json")
+
+        if (registroPassword1.value != registroPassword2.value) {
+            return alert("Contraseñas no coinciden entre si.")
+        }
+
+        var raw = JSON.stringify({
+            "nombre": registroNombre.value,
+            "email": registroEmail.value,
+            "password": registroPassword1.value
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("/api/v1/registro", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.code == 201) {
+                    alert(result.message)
+                    location.href = "/login"
+                } else if (result.code == 400) {
+                    alert(result.message)
+                } else {
+                    alert("Registro fallido, intente nuevamente.")
+                }
+            })
+            .catch(error => console.log('error', error))
+    })
+</script>

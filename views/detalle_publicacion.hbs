@@ -1,0 +1,84 @@
+<h2 class="text-center mt-3">Publicación</h2>
+
+
+<section class="py-5">
+
+    {{#if error}}
+        <h2 class="text-center mt-2">{{error}}</h2>
+    {{else}}
+    <div class="d-flex justify-content-center">
+                <div>
+                    {{>card 
+                    imagen=publicacion.imagen
+                    titulo=publicacion.titulo
+                    contenido=publicacion.contenido
+                    fecha = publicacion.fecha
+                    autor = publicacion.autor
+                    }}
+                </div>
+    </div>
+<hr>
+    <section>   
+        <h2 class="text-center mt-5">Agruegue su comentario: </h2>
+
+        <form id="formComentario">
+            <input type="hidden" name="idPublicacion" value="{{publicacion.id}}">
+            Contenido: <textarea type="text" name="comentario" class="form-control"></textarea>
+            <button class="btn btn-primary mt-3">Enviar</button>
+        </form>
+    </section>
+
+    
+    <section>
+               <h2 class="text-center mt-5"> Comentarios realizados: {{cantidad}}</h2>
+
+    {{#if comentarios}}
+        {{#each comentarios}}
+            <div>
+                <h3 class="text-cennter">Autor: {{this.nombre}}</h3>
+                <p>Comentario: {{this.contenido}}</p>
+                <p>Fecha: {{this.fecha}}</p>
+            </div>
+        {{/each}}
+        {{else}}
+        <h3 class="text-cennter">No hay comentarios</h3>
+    {{/if}}
+        
+    </section>
+       
+    {{/if}}
+
+</section>
+
+
+
+<script>
+    let formulario = document.getElementById("formComentario")
+
+    formulario.addEventListener("submit", (event) => {
+        event.preventDefault()
+
+        let myHeaders = new Headers();
+        myHeaders.append("authorization", "Bearer " + localStorage.getItem("jwt"))
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: new FormData(formulario),
+            redirect: 'follow'
+        };
+
+        fetch("/api/v1/comentarios", requestOptions)
+        .then(response =>response.json())
+        .then(result => {
+            if(result.code ==201){
+                alert(result.message)
+                formulario.reset()
+                location.reload()
+            }else{
+                alert(result.message)
+            }
+        })
+        .catch(error => console.log('error', error))
+    })
+</script>

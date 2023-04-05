@@ -1,0 +1,88 @@
+<h2 class="text-center m-5">
+  Login
+</h2>
+
+<form action="" id="formLogin" class="formLogin">
+  <div class="form_login">
+    <label for="loginEmail" class="form-label text-light fs-5">
+      Email:
+    </label>
+    <input type="email" class="form-control" id="loginEmail" required />
+  </div>
+  <div class="form_login">
+    <label for="loginPassword" class="form-label text-light fs-5">
+      Password:
+    </label>
+    <input type="password" class="form-control" id="loginPassword" required />
+  </div>
+  <button id="btn_login" type="submit" class="btn btn-outline-info fs-5">
+    Login
+  </button>
+</form>
+
+<style>
+  form {
+    margin: auto;
+    width: 420px;
+    height: 470px;
+    background-color: rgb(21, 38, 36)
+  }
+
+  .formLogin {
+    border-radius: 20px
+  }
+
+  .form_login {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  input {
+    margin-top: 10px;
+  }
+
+  #btn_login {
+    margin-top: 20px;
+    margin-left:
+      41px;
+  }
+</style>
+
+<script>
+
+    let formLogin = document.getElementById("formLogin")
+
+    formLogin.addEventListener("submit", (event) => {
+        event.preventDefault()
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json")
+
+        var raw = JSON.stringify({
+        "email": loginEmail.value,
+        "password": loginPassword.value
+        });
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+
+        fetch("/api/v1/login", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            if(result.code == 200){
+                alert("Usuario autenticado con éxito.")
+                localStorage.setItem("jwt", result.token)
+                location.href = "/";
+            }else if(result.code == 401){
+                alert(result.message)
+            }else{
+                alert("Login fallido.")
+            }
+        })
+        .catch(error => console.log('error', error))
+    })
+</script>
